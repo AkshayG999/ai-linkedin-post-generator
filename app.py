@@ -316,82 +316,76 @@ def generate_linkedin_post(input_blog_keywords, input_linkedin_type, input_linke
         - Language: {input_linkedin_language}
         - Post Length: {input_linkedin_length}
 
-        Content Length Guidelines:
-        1. Short Form (300-500 words):
-        - Concise, focused message
-        - Single main point with 2-3 supporting details
-        - Quick tips or insights format
-        - Optimal for mobile reading
+        Content Adaptation Based on Length:
+        1. Format for {input_linkedin_length}:
+        if input_linkedin_length == 'Short Form':
+            - Focus on single key message
+            - 300-500 words
+            - Crisp, direct writing style
+            - 2-3 key points maximum
+        elif input_linkedin_length == '1000 words':
+            - Balanced depth and engagement
+            - 1000 words approximately
+            - 3-4 detailed sections
+            - Complete topic coverage
+        else:  # Long Form
+            - In-depth analysis
+            - 1500-2000 words
+            - Multiple detailed sections
+            - Comprehensive coverage
 
-        2. Standard 1000 words:
-        - Comprehensive coverage
-        - 3-4 main points with detailed explanation
-        - Balance between depth and readability
-        - Include examples and case studies
+        Content Structure:
+        1. Hook (Visible Preview)
+        - Attention-grabbing opener
+        - Problem statement or insight
+        - Curiosity generator
 
-        3. Long Form (1500-2000 words):
-        - In-depth analysis
-        - Multiple sections with detailed insights
-        - Extended case studies or research findings
-        - Comprehensive industry analysis
-
-        Content Structure Requirements:
-        1. Hook (First 2-3 lines visible before "...see more")
-        - Start with an attention-grabbing statement
-        - Present a compelling problem or insight
-        - Create curiosity to click "see more"
-
-        2. Main Content Structure:
-        - Title: Clear, benefit-driven headline
-        - Introduction: Context setting and value proposition
-        - Core Sections: 3-5 key points with supporting evidence
-        - Expert Tips: Actionable takeaways
-        - FAQs: Address common reader questions
-        - Conclusion: Call-to-action and key message reinforcement
+        2. Main Content:
+        - Title
+        - Introduction
+        - Core Sections
+        - Expert Tips
+        - FAQs (if applicable to length)
+        - Conclusion with CTA
 
         Writing Guidelines:
         1. Voice & Style:
-        - Maintain professional yet conversational tone
-        - Use short, impactful sentences (15-20 words max)
-        - Include personal insights and experiences
-        - Write in active voice
+        - Professional yet conversational
+        - Active voice
+        - Clear and concise sentences
+        - Industry-appropriate tone
 
         2. Content Enhancement:
-        - Incorporate relevant statistics and data from search results
-        - Add industry-specific examples
-        - Include social proof elements
-        - Use power words for emotional connection
+        - Data from search results
+        - Industry examples
+        - Social proof
+        - Engagement elements
 
         3. Formatting:
-        - Utilize line breaks for readability
-        - Include relevant emojis (2-3 max per section)
-        - Create bulleted lists for key points
-        - Use bold text for emphasis on crucial points
+        - Strategic line breaks
+        - Appropriate emojis
+        - Clear section breaks
+        - Emphasis on key points
 
-        4. Engagement Optimization:
-        - Include 2-3 thought-provoking questions
-        - Add relevant hashtags (3-5 max)
-        - Encourage meaningful discussion
-        - Provide clear value proposition
+        4. Engagement Elements:
+        - Discussion questions
+        - Relevant hashtags
+        - Call for interactions
+        - Value proposition
 
         Technical Requirements:
-        1. Length: Adapt content based on {input_linkedin_length} selection
-        2. Format: Native text post with proper spacing
-        3. Language: Deliver in {input_linkedin_language}
-        4. Style: Align with {input_linkedin_type} content type
+        1. Deliver in {input_linkedin_language}
+        2. Match {input_linkedin_type} style
+        3. Optimize for LinkedIn algorithm
+        4. Include proper citations
 
-        SEO & Visibility:
-        1. Incorporate target keywords naturally
-        2. Use trending industry hashtags
-        3. Include searchable terms from SERP results
-        4. Optimize for LinkedIn's algorithm
-
-        Quality Checks:
-        1. Demonstrate E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)
-        2. Ensure all facts and statistics are accurately cited
-        3. Verify content aligns with LinkedIn's best practices
-        4. Check for cultural sensitivity and global audience appeal
+        Quality Assurance:
+        1. E-E-A-T principles
+        2. Fact verification
+        3. LinkedIn best practices
+        4. Global audience consideration
         """
+        
         linkedin_post = generate_text_with_exception_handling(prompt)
         return linkedin_post
 
