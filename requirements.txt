@@ -1,0 +1,7 @@
+streamlit>=1.24.0
+langchain-openai>=0.0.2
+clipboard>=0.0.4
+exa-py>=1.0.0
+tenacity>=8.2.2
+python-dotenv>=1.0.0
+requests>=2.31.0
