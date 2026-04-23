@@ -35,19 +35,19 @@ def multi_draft_node(state: PostState) -> PostState:
             _generate_draft(llm, angle, state) for angle in STYLE_ANGLES
         ])
 
-    # asyncio.run works whether or not there is an existing event loop at the
-    # top level; Streamlit runs in a synchronous context so this is safe.
+    # asyncio.run() creates a new event loop each time, which is the safest
+    # approach in a synchronous context (Streamlit).
+    # If a loop is already running (e.g. Jupyter / some ASGI hosts), fall back
+    # to running in a thread pool to avoid "cannot run nested event loop" errors.
     try:
-        loop = asyncio.get_event_loop()
-        if loop.is_running():
-            # Running inside an existing loop (e.g. Jupyter / some ASGI hosts)
-            import concurrent.futures
-            with concurrent.futures.ThreadPoolExecutor() as pool:
-                future = pool.submit(asyncio.run, run_all())
-                drafts = future.result()
-        else:
-            drafts = loop.run_until_complete(run_all())
+        asyncio.get_running_loop()
+        # A loop is already running — delegate to a thread with its own loop.
+        import concurrent.futures
+        with concurrent.futures.ThreadPoolExecutor() as pool:
+            future = pool.submit(asyncio.run, run_all())
+            drafts = future.result()
     except RuntimeError:
+        # No running loop — safe to call asyncio.run() directly.
         drafts = asyncio.run(run_all())
 
     return {

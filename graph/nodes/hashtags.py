@@ -27,7 +27,7 @@ def _replace_hashtags(post: str, new_tags: list[str]) -> str:
     """Remove all existing hashtags from the post body and append the new set."""
     # Strip existing hashtags
     cleaned = re.sub(r"\s*#\w+", "", post).rstrip()
-    tag_line = "  ".join(new_tags)
+    tag_line = " ".join(new_tags)
     return f"{cleaned}\n\n{tag_line}"
 
 

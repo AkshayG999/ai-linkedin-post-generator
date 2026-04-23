@@ -261,12 +261,12 @@ if st.session_state.final_state:
     # Prefer re-evaluated refined scores; fall back to best numbered draft
     display_scores = scores.get("refined") or {}
     if not display_scores:
-        best_i = max(
-            (k for k in scores if isinstance(k, int)),
-            key=lambda i: float(scores[i].get("total", 0)),
-            default=None,
-        )
-        if best_i is not None:
+        int_score_keys = [k for k in scores if isinstance(k, int) and k in scores]
+        if int_score_keys:
+            best_i = max(
+                int_score_keys,
+                key=lambda i: float(scores[i].get("total", 0)),
+            )
             display_scores = scores[best_i]
 
     if display_scores:
@@ -361,9 +361,10 @@ if st.session_state.final_state:
 
         current = dict(st.session_state.final_state)
         if extra_instructions:
+            existing_critique = current.get("critique", "")
+            separator = "\n\n" if existing_critique else ""
             current["critique"] = (
-                current.get("critique", "")
-                + f"\n\nAdditional instructions: {extra_instructions}"
+                existing_critique + separator + f"Additional instructions: {extra_instructions}"
             )
         with st.spinner("🔧 Refining…"):
             current = refiner_node(current)

@@ -1,4 +1,5 @@
 from graph.state import PostState
+from graph.nodes.utils import get_best_draft_index
 
 
 def selector_node(state: PostState) -> PostState:
@@ -9,16 +10,7 @@ def selector_node(state: PostState) -> PostState:
     drafts = state.get("drafts", [])
     scores = state.get("evaluation_scores", {})
 
-    best_index = 0
-    best_total = -1.0
-
-    for i in range(len(drafts)):
-        entry = scores.get(i, {})
-        total = float(entry.get("total", 0))
-        if total > best_total:
-            best_total = total
-            best_index = i
-
+    best_index = get_best_draft_index(drafts, scores)
     best_draft = drafts[best_index] if drafts else ""
     critique = scores.get(best_index, {}).get("critique", "No critique available.")
 

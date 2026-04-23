@@ -2,6 +2,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
 from graph.state import PostState
+from graph.nodes.utils import get_best_draft_index
 from prompts.refiner_prompt import REFINER_SYSTEM, REFINER_HUMAN
 
 DIMENSIONS = [
@@ -41,16 +42,8 @@ def refiner_node(state: PostState) -> PostState:
     all_scores = state.get("evaluation_scores", {})
     scores = all_scores.get("refined", None)
     if scores is None:
-        # Find the scores for the currently selected draft
         drafts = state.get("drafts", [])
-        best_index = 0
-        best_total = -1.0
-        for i in range(len(drafts)):
-            entry = all_scores.get(i, {})
-            total = float(entry.get("total", 0))
-            if total > best_total:
-                best_total = total
-                best_index = i
+        best_index = get_best_draft_index(drafts, all_scores)
         scores = all_scores.get(best_index, {})
 
     llm = ChatOpenAI(model="gpt-4o", temperature=0.6)
